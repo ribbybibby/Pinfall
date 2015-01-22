@@ -92,6 +92,7 @@ public class PlayerMovement : MonoBehaviour {
 		// Movement while not on the floor or on a Ladder
 		if (inFloor == false && movingInLadder == false) 
 		{
+			// Aerial movement Right
 			gameObject.rigidbody2D.gravityScale += ((airMoves-1)/10);
 			if (Input.GetKey (RightKey) && smashDown == false)
 			{
@@ -99,6 +100,7 @@ public class PlayerMovement : MonoBehaviour {
 				transform.Translate(Vector2.right * (speed/airMoves) * Time.deltaTime);
 				airMoves += airMoveIncrement;
 			}
+			// Aerial movement Left
 			if (Input.GetKey (LeftKey) && smashDown == false)
 			{
 				facingRight = false;
@@ -106,6 +108,7 @@ public class PlayerMovement : MonoBehaviour {
 				airMoves += airMoveIncrement;
 			}
 
+			// Smash downwards if above a table
 			if (Input.GetKey (DownKey))
 			{
 				RaycastHit2D[] hitdown = Physics2D.RaycastAll (transform.position, -Vector2.up, sightDistance);
@@ -146,6 +149,7 @@ public class PlayerMovement : MonoBehaviour {
 	void OnTriggerEnter2D (Collider2D col)
 	{
 
+		// Destroy table and prone enemy with smash downwards
 		if (col.tag == "Floor" && col.gameObject.layer == 14 
 		    && col.gameObject.transform.parent.GetComponentInChildren<TableCatcher>().onTable == true
 		    && smashDown == true)
@@ -153,11 +157,14 @@ public class PlayerMovement : MonoBehaviour {
 			Destroy (col.gameObject.transform.parent.GetComponentInChildren<TableCatcher>().enemy);
 			Destroy (col.transform.parent.gameObject);
 		}
+
+		// Grab enemy
 		if (col.tag == "Enemy")
 		{
 			GrabEnemy(col);
 		}
 
+		// Re-enable ladder collisions at the top, do a little jump if coming up the ladder
 		if (col.tag == "LadderTop")
 		{
 			inLadder = false;
@@ -171,22 +178,26 @@ public class PlayerMovement : MonoBehaviour {
 			Physics2D.IgnoreLayerCollision (9, 10, false);
 		}
 
+		// Ignore ladder collisions once you reach the bottom
 		if (col.tag == "LadderBottom")
 		{
 			Physics2D.IgnoreLayerCollision (9, 10, true);
 		}
 
+		// Ignore collisions while climbing a ladder
 		if (col.tag == "LadderBody")
 		{
 			Physics2D.IgnoreLayerCollision (9, 10, true);
 			inLadder = true;
 		}
 
+
 		if (col.tag == "Wall")
 		{
 			inWall = true;
 		}
 
+		// If you hit the floor, reset a lot of different things
 		if (col.tag == "Floor")
 		{
 			smashDown = false;
@@ -198,15 +209,17 @@ public class PlayerMovement : MonoBehaviour {
 			airMoves = 1;
 		}
 	}
-
+	
 	void OnTriggerStay2D (Collider2D col)
 	{
 
+		// Grab enemy
 		if (col.tag == "Enemy")
 		{
 			GrabEnemy(col);
 		}
 
+		// If you press down at the top of a ladder, disable collisions and fall down
 		if (col.tag == "LadderTop")
 		{
 			if (Input.GetKey (DownKey) && inHold == false)
@@ -221,6 +234,7 @@ public class PlayerMovement : MonoBehaviour {
 			inWall = true;
 		}
 
+		// Make sure certain things remain true or false while on the floor
 		if (col.tag == "Floor")
 		{
 			inFloor = true;
@@ -229,8 +243,10 @@ public class PlayerMovement : MonoBehaviour {
 		}
 	}
 
+
 	void OnTriggerExit2D (Collider2D col)
 	{
+		// If you leave a ladder, make that clear
 		if (col.gameObject.tag == "LadderBody")
 		{
 			inLadder = false;
@@ -240,7 +256,7 @@ public class PlayerMovement : MonoBehaviour {
 		{
 			inWall = false;
 		}
-
+		// If you leave the floor, set jumping variables
 		if (col.tag == "Floor")
 		{
 			if (movingInLadder == false)
@@ -252,15 +268,17 @@ public class PlayerMovement : MonoBehaviour {
 		
 	}
 
-	// Grab 
+	// Grab Enemy method
 	void GrabEnemy(Collider2D col)
 	{
+		// If held, keep above the player's head
 		if (inHold == true)
 		{
 			col.transform.parent.position = new Vector3 (transform.position.x, (transform.position.y+1), transform.position.z);
 		}
 
-		//Grab
+		//Grab by removing gravity from the enemy, placing them above the characters head 
+		// and rotating them by 90 degrees
 		if (Input.GetKeyDown (GrabKey) && ! Input.GetKey (LeftKey) && ! Input.GetKey (RightKey) && inHold == false)
 		{
 			enemy = col.gameObject;
