@@ -11,9 +11,12 @@ public class PlayerMovement : MonoBehaviour {
 	public KeyCode ThrowKey; // Throw enemy
 	public float jumpForce; // How hard to jump
 	public float throwForce; // How hard to throw
+	public float smashForce; // How hard to smash downwards
 	public int jumpLimit; // How many jumps (single, double, triple, etc)
 	public float airMoveIncrement; // How much to decrease mobility in the air by each update
 	public int speed; // Move speed
+	public float sightDistance; // Distance for downwards raycast
+	public bool smashDown;
 
 	// Bools that track state changes, for use in conditionals
 	private bool facingRight; // Facing right?
@@ -90,17 +93,30 @@ public class PlayerMovement : MonoBehaviour {
 		if (inFloor == false && movingInLadder == false) 
 		{
 			gameObject.rigidbody2D.gravityScale += ((airMoves-1)/10);
-			if (Input.GetKey (RightKey))
+			if (Input.GetKey (RightKey) && smashDown == false)
 			{
 				facingRight = true;
 				transform.Translate(Vector2.right * (speed/airMoves) * Time.deltaTime);
 				airMoves += airMoveIncrement;
 			}
-			if (Input.GetKey (LeftKey))
+			if (Input.GetKey (LeftKey) && smashDown == false)
 			{
 				facingRight = false;
 				transform.Translate(-Vector2.right * (speed/airMoves) * Time.deltaTime);
 				airMoves += airMoveIncrement;
+			}
+
+			if (Input.GetKey (DownKey))
+			{
+				RaycastHit2D[] hitdown = Physics2D.RaycastAll (transform.position, -Vector2.up, sightDistance);
+				for (int i = 0; i < hitdown.Length; i++)
+				{
+					if (hitdown[i].collider.tag == "EnemyTable" && hitdown[i].collider.GetComponent<TableCatcher>().onTable == true)
+					{
+						smashDown = true;
+						rigidbody2D.AddForce(Vector3.down * smashForce);
+					}
+				}
 			}
 		}
 
@@ -130,7 +146,13 @@ public class PlayerMovement : MonoBehaviour {
 	void OnTriggerEnter2D (Collider2D col)
 	{
 
-
+		if (col.tag == "Floor" && col.gameObject.layer == 14 
+		    && col.gameObject.transform.parent.GetComponentInChildren<TableCatcher>().onTable == true
+		    && smashDown == true)
+		{
+			Destroy (col.gameObject.transform.parent.GetComponentInChildren<TableCatcher>().enemy);
+			Destroy (col.transform.parent.gameObject);
+		}
 		if (col.tag == "Enemy")
 		{
 			GrabEnemy(col);
@@ -167,6 +189,7 @@ public class PlayerMovement : MonoBehaviour {
 
 		if (col.tag == "Floor")
 		{
+			smashDown = false;
 			gameObject.rigidbody2D.gravityScale = 1;
 			inFloor = true;
 			midJump = false;

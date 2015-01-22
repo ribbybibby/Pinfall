@@ -3,7 +3,9 @@ using System.Collections;
 
 public class TableCatcher : MonoBehaviour {
 
-	private bool onTable;
+	public bool onTable;
+
+	public GameObject enemy;
 	// Use this for initialization
 	void Start () {
 	
@@ -13,15 +15,14 @@ public class TableCatcher : MonoBehaviour {
 	void Update () {
 	
 	}
-	void OnTriggerEnter2D (Collider2D col)
+
+	
+	void OnTriggerStay2D (Collider2D col)
 	{
-		Debug.Log ("WHAT THE HELL");
-		if (col.tag == "Enemy")
+		if (col.tag == "Enemy" && col.GetComponentInParent<EnemyMovement>().onTable == true)
 		{
-			col.transform.position = new Vector3 (transform.position.x, (transform.position.y+1), transform.position.z);
-			col.rigidbody2D.isKinematic = true;
-			col.rigidbody2D.GetComponentInParent<EnemyMovement>().onTable = true;
 			onTable = true;
+			enemy = col.gameObject;
 		}
 	}
 }	

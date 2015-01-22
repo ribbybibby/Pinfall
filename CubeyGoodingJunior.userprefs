@@ -1,9 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/EnemyReceive.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Player/PlayerMovement.cs">
     <Files>
-      <File FileName="Assets/TableCatcher.cs" Line="20" Column="1" />
-      <File FileName="Assets/EnemyReceive.cs" Line="1" Column="1" />
+      <File FileName="Assets/EnemyMovement.cs" Line="24" Column="18" />
+      <File FileName="Assets/Scripts/Player/PlayerMovement.cs" Line="69" Column="33" />
+      <File FileName="Assets/CameraMove.cs" Line="26" Column="13" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
