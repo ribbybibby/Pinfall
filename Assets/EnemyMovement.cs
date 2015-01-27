@@ -30,15 +30,7 @@ public class EnemyMovement : MonoBehaviour {
 	void Update () {
 		if (inFloor == true && inHold == false && onTable == false)
 		{
-			if (facingright == true)
-			{
-				transform.Translate(Vector2.right * speed * Time.deltaTime);
-			}
-
-			if (facingright == false)
-			{
-				transform.Translate(-Vector2.right * speed * Time.deltaTime);
-			}
+			transform.Translate(Vector2.right * speed * Time.deltaTime);
 		}
 
 	}
@@ -54,16 +46,27 @@ public class EnemyMovement : MonoBehaviour {
 		if (col.name == "LeftWall")
 		{
 			facingright = true;
+			gameObject.transform.eulerAngles = new Vector3 (0,0,-1);
 		}
 
 		if (col.name == "RightWall")
 		{
 			facingright = false;
+			gameObject.transform.eulerAngles = new Vector3 (0,180,-1);
+
 		}
 
 		if (col.tag == "Floor" && inHold == false)
 		{
-			gameObject.transform.eulerAngles = new Vector3 (0,0,0);
+			if (facingright == true)
+			{
+				gameObject.transform.eulerAngles = new Vector3 (0,0,-1);
+			}
+
+			if (facingright == false)
+			{
+				gameObject.transform.eulerAngles = new Vector3 (0,180,-1);
+			}
 			inFloor = true;
 		}
 	}
