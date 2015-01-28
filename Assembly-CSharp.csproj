@@ -55,6 +55,7 @@
      <Compile Include="Assets\LadderTest.cs" />
      <Compile Include="Assets\PuzzleSelfDestruct.cs" />
      <Compile Include="Assets\PuzzleSpawn.cs" />
+     <Compile Include="Assets\RunningAnimationManager.cs" />
      <Compile Include="Assets\Scripts\ChangeGUITextTrigger.cs" />
      <Compile Include="Assets\Scripts\EndLevel.cs" />
      <Compile Include="Assets\Scripts\MakeChanges.cs" />

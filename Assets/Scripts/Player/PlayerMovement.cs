@@ -80,11 +80,13 @@ public class PlayerMovement : MonoBehaviour {
 			if (Input.GetKey (RightKey))
 			{
 				facingRight = true;
-				transform.Translate(Vector2.right * (speed) * Time.deltaTime);
+				gameObject.transform.eulerAngles = new Vector3 (0,180,-1);
+				transform.Translate(-Vector2.right * (speed) * Time.deltaTime);
 			}
 			if (Input.GetKey (LeftKey))
 			{
 				facingRight = false;
+				gameObject.transform.eulerAngles = new Vector3 (0,0,-1);
 				transform.Translate(-Vector2.right * (speed) * Time.deltaTime);
 			}
 		}
@@ -97,13 +99,15 @@ public class PlayerMovement : MonoBehaviour {
 			if (Input.GetKey (RightKey) && smashDown == false)
 			{
 				facingRight = true;
-				transform.Translate(Vector2.right * (speed/airMoves) * Time.deltaTime);
+				gameObject.transform.eulerAngles = new Vector3 (0,180,-1);
+				transform.Translate(-Vector2.right * (speed) * Time.deltaTime);
 				airMoves += airMoveIncrement;
 			}
 			// Aerial movement Left
 			if (Input.GetKey (LeftKey) && smashDown == false)
 			{
 				facingRight = false;
+				gameObject.transform.eulerAngles = new Vector3 (0,0,-1);
 				transform.Translate(-Vector2.right * (speed/airMoves) * Time.deltaTime);
 				airMoves += airMoveIncrement;
 			}

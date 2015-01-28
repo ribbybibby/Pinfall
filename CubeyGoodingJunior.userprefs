@@ -1,9 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Player/PlayerMovement.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/RunningAnimationManager.cs">
     <Files>
-      <File FileName="../Documents/LudumDare31/Assets/Objects_Characters/Cat/CatMovement.cs" Line="47" Column="23" />
-      <File FileName="Assets/Scripts/Player/PlayerMovement.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Player/PlayerMovement.cs" Line="9" Column="35" />
+      <File FileName="Assets/EnemyMovement.cs" Line="1" Column="1" />
+      <File FileName="Assets/RunningAnimationManager.cs" Line="26" Column="24" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
